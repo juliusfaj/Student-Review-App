@@ -47,6 +47,16 @@ function App() {
     };
   }, [alert]);
 
+  const handleDelete = (id) => {
+    const newData = data.filter((item) => item.id !== id);
+    setData(newData);
+    setAlert({
+      status: true,
+      type: "danger",
+      message: "review removed",
+    });
+  };
+
   return (
     <section className="container">
       {alert.status ? (
@@ -82,7 +92,7 @@ function App() {
         </form>
       </div>
       <div className="review-container">
-        <Review data={data} />
+        <Review data={data} handleDelete={handleDelete} />
       </div>
     </section>
   );

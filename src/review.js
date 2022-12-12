@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
-const Review = ({ data }) => {
+const Review = ({ data, handleDelete }) => {
   const [display, setDisplay] = useState(false);
 
   const handleDisplay = () => {
@@ -28,7 +28,7 @@ const Review = ({ data }) => {
               </button>
             )}
           </p>
-          <button className="delete-btn">
+          <button className="delete-btn" onClick={() => handleDelete(id)}>
             <FaTrash />
           </button>
         </div>
