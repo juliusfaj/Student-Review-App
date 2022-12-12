@@ -1,24 +1,90 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState, useEffect } from "react";
+import Review from "./review";
 
 function App() {
+  const [name, setName] = useState("");
+  const [review, setReview] = useState("");
+  const [data, setData] = useState([]);
+  const [alert, setAlert] = useState({
+    status: false,
+    type: "danger",
+    message: "review removed",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !review) {
+      console.log("input a value");
+      setAlert({
+        status: true,
+        type: "danger",
+        message: "add a review",
+      });
+    } else {
+      setData([...data, { id: new Date().getTime().toString(), name, review }]);
+      setName("");
+      setReview("");
+      setAlert({
+        status: true,
+        type: "success",
+        message: "review added",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const clearAlert = () => {
+      setAlert({ status: false });
+    };
+
+    const setClearAlert = setTimeout(() => {
+      clearAlert();
+    }, 3000);
+
+    return () => {
+      clearTimeout(setClearAlert);
+    };
+  }, [alert]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className="container">
+      {alert.status ? (
+        <p className={`alert alert-${alert.type}`}>{alert.message}</p>
+      ) : (
+        ""
+      )}
+      <div className="form-container">
+        <form className="form" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">fullname</label>
+            <input
+              type="text"
+              placeholder="fullname"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="review">review</label>
+            <textarea
+              id="review"
+              cols="30"
+              rows="10"
+              placeholder="review here"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="btn-container">
+            <button className="submit-btn">submit</button>
+          </div>
+        </form>
+      </div>
+      <div className="review-container">
+        <Review data={data} />
+      </div>
+    </section>
   );
 }
 
