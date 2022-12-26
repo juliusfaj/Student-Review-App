@@ -2,10 +2,19 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Review from "./review";
 
+const getLocalStorage = () => {
+  const getData = localStorage.getItem("Reviews");
+  if (getData) {
+    return JSON.parse(getData);
+  } else {
+    return [];
+  }
+};
+
 function App() {
   const [name, setName] = useState("");
   const [review, setReview] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(getLocalStorage());
   const [alert, setAlert] = useState({
     status: false,
     type: "danger",
@@ -53,9 +62,13 @@ function App() {
     setAlert({
       status: true,
       type: "danger",
-      message: "review removed",
+      message: "review deleted",
     });
   };
+
+  useEffect(() => {
+    localStorage.setItem("Reviews", JSON.stringify(data));
+  }, [data]);
 
   return (
     <section className="container">

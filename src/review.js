@@ -1,14 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 
 const Review = ({ data, handleDelete }) => {
   const [display, setDisplay] = useState(false);
 
-  const handleDisplay = () => {
+  const handleDisplay = (e) => {
     setDisplay(!display);
   };
 
+  // start
   const reviews = data.map((item) => {
     const { name, id, review } = item;
     return (
@@ -19,7 +20,7 @@ const Review = ({ data, handleDelete }) => {
         <div className="info">
           <h3>{name}</h3>
           <p>
-            {!display ? review.substr(0, 150) : review}{" "}
+            {!display ? review.substr(0, 150) : review}
             {review.length < 150 ? (
               ""
             ) : (
@@ -29,7 +30,8 @@ const Review = ({ data, handleDelete }) => {
             )}
           </p>
           <button className="delete-btn" onClick={() => handleDelete(id)}>
-            <FaTrash />
+            {/* <FaTrash /> */}
+            delete
           </button>
         </div>
       </main>
